@@ -51,7 +51,19 @@ Complete framework reference documentation covering:
 - [Official Framework Documentation](./getting-started/acss-official-framework-documentation-automatic-css.md)
 - [Cheat Sheet](./getting-started/cheat-sheet-automatic-css.md)
 - [Installation Guide](./getting-started/how-to-install-acss-automatic-css.md)
-- [ACSS Framework Guide for LLMs](./automatic-css-llm.txt) - Comprehensive guide for AI assistants
+
+### AI Assistant Integration
+- [ACSS Framework Guide for LLMs](./automatic-css-llm.txt) - Comprehensive guide for AI coding assistants
+
+**Using the LLM Guide**: To enable AI assistants to work effectively with ACSS in your projects:
+1. Copy the `automatic-css-llm.txt` file to the root of your website project folder
+2. Configure your AI coding tool to reference it using:
+   - **Cline**: Add to `.clinerules` file
+   - **Cursor**: Reference in `.cursorrules` file
+   - **Claude Projects**: Upload to project knowledge or reference in `CLAUDE.md`
+   - **Other tools**: Check documentation for custom instruction methods
+
+This ensures your AI assistant understands ACSS conventions, available utilities, mixins, and best practices when generating code for your project.
 
 ### Page Builder Setup
 - [Bricks Builder](./getting-started/acss-bricks-builder-setup-automatic-css.md)
