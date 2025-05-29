@@ -11,6 +11,11 @@ Table of Contents
 8. Component Development
 9. Best Practices
 10. Advanced Techniques
+11. Plugin Architecture & Extension Points
+12. SCSS Functions & Mixins
+13. Builder-Specific Integration
+14. Developer API Reference
+15. Performance Optimization
 
 ---
 
@@ -670,3 +675,432 @@ Key takeaways for LLM usage:
 6. Never modify core framework naming or structure
 
 By following ACSS principles, you ensure consistent, maintainable, and scalable websites across all projects.
+
+---
+
+Plugin Architecture & Extension Points
+
+ACSS is built as a modular WordPress plugin with extensive customization capabilities through hooks and filters.
+
+File Structure Overview
+```
+automaticcss-plugin/
+├── automaticcss-plugin.php    # Main plugin file
+├── classes/                    # Core PHP classes
+│   ├── Plugin.php             # Main orchestrator
+│   ├── CSS_Engine/            # CSS generation system
+│   ├── Framework/             # Core framework logic
+│   ├── Model/                 # Database/config models
+│   ├── UI/                    # Dashboard interfaces
+│   └── Features/              # Individual features
+├── config/                    # Configuration files
+│   ├── framework.json         # Class definitions
+│   ├── variables.json         # Default values
+│   └── utility-expansions/    # Responsive rules
+└── assets/scss/               # SCSS architecture
+    ├── automatic.scss         # Main entry point
+    ├── modules/               # Feature modules
+    └── platforms/             # Builder-specific
+```
+
+WordPress Hooks for Customization
+
+Plugin Lifecycle Actions:
+```php
+// Activation/deactivation hooks
+add_action('automaticcss_activate_plugin_start', 'my_activation_function');
+add_action('automaticcss_deactivate_plugin_end', 'my_deactivation_function');
+
+// Update hooks (passes new_version, old_version)
+add_action('automaticcss_update_plugin_start', 'my_update_function', 10, 2);
+```
+
+CSS Generation Hooks:
+```php
+// Modify variables before CSS generation
+add_filter('automaticcss_framework_variables', function($variables) {
+    $variables['custom-spacing'] = '2rem';
+    return $variables;
+});
+
+// Hook into CSS generation process
+add_action('automaticcss_before_generate_framework_css', 'before_css_generation');
+add_action('automaticcss_after_generate_framework_css', 'after_css_generation');
+```
+
+Variable Processing Filters:
+```php
+// Modify any variable's input value
+add_filter('automaticcss_input_value_primary', function($value) {
+    return '#ff0000'; // Force primary color to red
+});
+
+// Modify output values
+add_filter('automaticcss_output_value_space-m', function($value) {
+    return $value * 1.5; // Increase medium spacing by 50%
+});
+
+// Color-specific filters
+add_filter('automaticcss_output_value_primary-h', 'modify_hue');      // HSL hue
+add_filter('automaticcss_output_value_primary-s', 'modify_saturation'); // HSL saturation
+add_filter('automaticcss_output_value_primary-l', 'modify_lightness');  // HSL lightness
+```
+
+Settings Integration:
+```php
+// Before/after settings save
+add_action('automaticcss_settings_before_save', function($values) {
+    // Validate or modify settings before save
+});
+
+add_action('automaticcss_settings_after_regeneration', function($values) {
+    // Perform actions after CSS regeneration
+});
+```
+
+---
+
+SCSS Functions & Mixins
+
+ACSS provides powerful SCSS functions and mixins for use in the Custom SCSS area of the dashboard.
+
+Core SCSS Functions
+
+```scss
+// Convert pixels to rem (uses root font size)
+.element {
+    padding: ctr(24); // Converts 24px to rem
+}
+
+// Create fluid/responsive values
+.hero {
+    // Clamps between min and max based on viewport
+    padding: fluid(40, 80); // 40px min, 80px max
+}
+
+// Power/exponent calculations
+.scale {
+    font-size: pow(1.2, 3); // 1.2^3 = 1.728
+}
+
+// Percentage conversion
+.width {
+    width: percent(75); // Returns 75%
+}
+
+// Strip units from values
+$number: strip-unit(16px); // Returns 16
+```
+
+Available Mixins
+
+Button Mixins:
+```scss
+// Create a button with ACSS styling
+.my-button {
+    @include btn(primary, yes); // (style, hover-state)
+}
+
+// Button variations
+.outline-button {
+    @include btn-outline(secondary);
+}
+```
+
+Grid Mixins:
+```scss
+// Create responsive grids
+.custom-grid {
+    @include grid(3); // 3-column grid
+    @include grid-gap(m); // Medium gap
+}
+
+// Auto-responsive grid
+.product-grid {
+    @include auto-grid(4, 300px); // 4 cols, 300px min
+}
+```
+
+Breakpoint Mixins:
+```scss
+// Use ACSS breakpoints
+.responsive-element {
+    padding: var(--space-m);
+    
+    @include breakpoint(tablet) {
+        padding: var(--space-l);
+    }
+    
+    @include breakpoint(desktop) {
+        padding: var(--space-xl);
+    }
+}
+
+// Generate styles at all breakpoints
+.adaptive {
+    @include at-each-breakpoint {
+        // Styles generated for each breakpoint
+    }
+}
+```
+
+Overlay Mixin:
+```scss
+// Create overlay effects
+.hero-section {
+    @include overlay(
+        var(--black-trans-60),  // Background color
+        0.8,                    // Opacity
+        url('pattern.png')     // Optional background image
+    );
+}
+```
+
+Platform Detection Mixins:
+```scss
+// Conditional styles based on active builders
+.custom-component {
+    @include if-bricks-on {
+        // Styles only when Bricks is active
+    }
+    
+    @include if-oxygen-off {
+        // Styles only when Oxygen is NOT active
+    }
+    
+    @include if-all-builders-off {
+        // Styles for vanilla WordPress
+    }
+}
+```
+
+Spacing Mixins:
+```scss
+// Map-based spacing utilities
+.card {
+    @include map-get-padding(l); // Large padding
+    @include map-get-gap(m);      // Medium gap
+}
+
+// Section spacing
+.hero {
+    @include map-get-section-spacing(xl);
+}
+```
+
+---
+
+Builder-Specific Integration
+
+ACSS provides deep integration with various WordPress page builders, each with specific optimizations and features.
+
+Supported Builders
+- Bricks Builder
+- Oxygen Builder
+- Breakdance
+- Cwicly
+- GeneratePress/GenerateBlocks
+- Gutenberg (Block Editor)
+- Frames
+
+Context Detection
+
+ACSS automatically detects the current context:
+```php
+// Hook into builder contexts
+add_action('acss/bricks/in_builder_context', function() {
+    // Code runs only in Bricks builder
+});
+
+add_action('acss/core/in_preview_context', function() {
+    // Code runs in any preview context
+});
+
+add_action('acss/core/in_frontend_context', function() {
+    // Code runs on frontend only
+});
+```
+
+Builder-Specific Features
+
+Bricks Builder:
+- Custom color palette integration
+- Global classes panel
+- Conditions system support
+- Query loop compatibility
+
+Oxygen Builder:
+- Global colors sync
+- Spacing presets
+- Custom selectors
+- Structure panel integration
+
+Breakdance:
+- Design library integration
+- Global blocks support
+- Dynamic data compatibility
+
+Gutenberg:
+- Block variations
+- Theme.json integration
+- FSE support
+- Custom block styles
+
+Customizing Builder Dependencies:
+```php
+// Add custom dependencies to builder stylesheets
+add_filter('automaticcss_bricks_deps', function($deps) {
+    $deps[] = 'my-custom-styles';
+    return $deps;
+});
+```
+
+---
+
+Developer API Reference
+
+Key PHP Classes and Methods
+
+CSS_Engine Class:
+```php
+// Main CSS generation engine
+$css_engine = \Automaticcss\CSS_Engine\CSS_Engine::get_instance();
+
+// Regenerate all CSS
+$css_engine->generate_all_files();
+
+// Get generated CSS file URL
+$url = $css_engine->get_css_file_url('core');
+```
+
+Framework Core:
+```php
+// Access framework instance
+$framework = \Automaticcss\Framework\Core::get_instance();
+
+// Get processed variables
+$variables = $framework->get_variables();
+
+// Check if in builder context
+$in_builder = $framework->is_builder_context();
+```
+
+Configuration Access:
+```php
+// Load configuration files
+$config = \Automaticcss\Model\Config::get('framework');
+$variables = \Automaticcss\Model\Config::get('variables');
+
+// Get specific configuration value
+$value = \Automaticcss\Model\Database_Settings::get_setting('primary');
+```
+
+Variable Processing
+
+The variable system supports multiple types:
+- `color`: Color picker with automatic variations
+- `number`: Numeric input with unit support
+- `toggle`: On/off switches
+- `select`: Dropdown selections
+- `text`: Text inputs
+- `hidden`: Hidden values
+
+Variable Definition Example:
+```json
+{
+    "custom-spacing": {
+        "type": "number",
+        "default": 1.5,
+        "unit": "rem",
+        "min": 0,
+        "max": 10,
+        "step": 0.1,
+        "decimals": 1
+    }
+}
+```
+
+Conditional Loading:
+```json
+{
+    "condition": {
+        "type": "=",
+        "setting": "option-grid",
+        "value": "on"
+    }
+}
+```
+
+---
+
+Performance Optimization
+
+CSS Generation Strategy
+
+ACSS generates multiple CSS files for optimal performance:
+1. `automaticcss-core.css` - Core framework styles
+2. `automaticcss-vars.css` - CSS custom properties only
+3. `automaticcss-custom.css` - User's custom SCSS
+4. Builder-specific files when needed
+
+Optimization Techniques
+
+1. Conditional Loading:
+```php
+// Disable unused utilities in dashboard
+// Settings > Utilities > Toggle off unused features
+```
+
+2. File Caching:
+- CSS files are cached and only regenerated when settings change
+- Cache busting via version parameters
+- Browser caching headers properly set
+
+3. Critical CSS:
+- Variables file loaded in <head> for faster rendering
+- Core styles can be deferred if needed
+- Minimal specificity for easy overrides
+
+4. Tree Shaking:
+- Unused utilities automatically excluded
+- Conditional features only loaded when enabled
+- Platform-specific code isolated
+
+5. Custom SCSS Best Practices:
+```scss
+// Good: Use ACSS variables
+.custom {
+    padding: var(--space-m);
+    color: var(--primary);
+}
+
+// Avoid: Hard-coded values
+.custom {
+    padding: 20px; // Use variables instead
+    color: #007cba; // Use color system
+}
+```
+
+Debugging Tips
+
+1. Enable Debug Mode:
+```php
+define('ACSS_DEBUG', true); // In wp-config.php
+```
+
+2. Check Generated CSS:
+- View source for file paths
+- Inspect CSS custom properties in DevTools
+- Use computed styles panel
+
+3. Common Issues:
+- Cache conflicts: Clear all caches after changes
+- Specificity battles: Use lower specificity selectors
+- Missing styles: Check conditional loading settings
+
+4. Performance Monitoring:
+- Use browser DevTools Performance tab
+- Check CSS file sizes in Network tab
+- Monitor paint/layout metrics
+
+---
