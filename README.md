@@ -52,6 +52,21 @@ Complete framework reference documentation covering:
 - [Cheat Sheet](./docs/getting-started/cheat-sheet-automatic-css.md)
 - [Installation Guide](./docs/getting-started/how-to-install-acss-automatic-css.md)
 
+### Getting Started
+- [What are Utility Classes?](./docs/getting-started/utility-classes-what-why-automatic-css.md)
+- [IDs vs Classes vs Utility Classes](./docs/getting-started/ids-vs-classes-vs-utility-classes-automatic-css.md)
+- [How to Use a Utility Class](./docs/getting-started/how-to-use-a-utility-class-automatic-css.md)
+- [Variables: The Real Power of ACSS](./docs/getting-started/variables-the-real-power-of-acss-automatic-css.md)
+- [What are Mixins?](./docs/getting-started/what-are-mixins-automatic-css.md)
+- [Introduction to Recipes](./docs/getting-started/introduction-to-recipes-automatic-css.md)
+
+### Initial Setup
+- [Palette Setup](./docs/getting-started/palette-setup-automatic-css.md)
+- [Standard Spacing Setup](./docs/getting-started/standard-spacing-setup-automatic-css.md)
+- [Section Spacing Setup](./docs/getting-started/section-spacing-setup-automatic-css.md)
+- [Form Styling Basics](./docs/getting-started/form-styling-basics-automatic-css.md)
+- [Minimum Page Builder Requirements](./docs/getting-started/acss-minimum-page-builder-requirements-automatic-css.md)
+
 ### AI Assistant Integration
 - [ACSS Framework Guide for LLMs](./automatic-css-llm.txt) - Comprehensive guide for AI coding assistants
 
