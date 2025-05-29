@@ -30,14 +30,14 @@ This repository includes:
 
 The documentation is organized into the following main sections:
 
-### `/getting-started/`
+### `/docs/getting-started/`
 Essential guides for new users including:
 - Installation and setup guides for various page builders
 - Core concepts like utility classes and variables
 - Palette and spacing configuration
 - Form styling basics
 
-### `/acss-docs/`
+### `/docs/acss-docs/`
 Complete framework reference documentation covering:
 - **Utility Classes**: Spacing, typography, colors, layout, and more
 - **Variables**: Typography, spacing, colors, and custom properties
@@ -48,9 +48,9 @@ Complete framework reference documentation covering:
 ## Quick Navigation
 
 ### Essential Documentation
-- [Official Framework Documentation](./getting-started/acss-official-framework-documentation-automatic-css.md)
-- [Cheat Sheet](./getting-started/cheat-sheet-automatic-css.md)
-- [Installation Guide](./getting-started/how-to-install-acss-automatic-css.md)
+- [Official Framework Documentation](./docs/getting-started/acss-official-framework-documentation-automatic-css.md)
+- [Cheat Sheet](./docs/getting-started/cheat-sheet-automatic-css.md)
+- [Installation Guide](./docs/getting-started/how-to-install-acss-automatic-css.md)
 
 ### AI Assistant Integration
 - [ACSS Framework Guide for LLMs](./automatic-css-llm.txt) - Comprehensive guide for AI coding assistants
@@ -66,17 +66,17 @@ Complete framework reference documentation covering:
 This ensures your AI assistant understands ACSS conventions, available utilities, mixins, and best practices when generating code for your project.
 
 ### Page Builder Setup
-- [Bricks Builder](./getting-started/acss-bricks-builder-setup-automatic-css.md)
-- [Breakdance](./getting-started/acss-breakdance-setup-automatic-css.md)
-- [Oxygen Builder](./getting-started/acss-oxygen-builder-setup-automatic-css.md)
-- [GeneratePress/GenerateBlocks](./getting-started/acss-generatepress-generateblocks-setup-automatic-css.md)
+- [Bricks Builder](./docs/getting-started/acss-bricks-builder-setup-automatic-css.md)
+- [Breakdance](./docs/getting-started/acss-breakdance-setup-automatic-css.md)
+- [Oxygen Builder](./docs/getting-started/acss-oxygen-builder-setup-automatic-css.md)
+- [GeneratePress/GenerateBlocks](./docs/getting-started/acss-generatepress-generateblocks-setup-automatic-css.md)
 
 ### Core Features
-- [Utility Classes Overview](./getting-started/utility-classes-what-why-automatic-css.md)
-- [Variables Guide](./getting-started/variables-the-real-power-of-acss-automatic-css.md)
-- [Spacing System](./acss-docs/spacing-variables-automatic-css.md)
-- [Typography System](./acss-docs/typography-variables-automatic-css.md)
-- [Color System](./acss-docs/semantic-colors-automatic-css.md)
+- [Utility Classes Overview](./docs/getting-started/utility-classes-what-why-automatic-css.md)
+- [Variables Guide](./docs/getting-started/variables-the-real-power-of-acss-automatic-css.md)
+- [Spacing System](./docs/acss-docs/spacing-variables-automatic-css.md)
+- [Typography System](./docs/acss-docs/typography-variables-automatic-css.md)
+- [Color System](./docs/acss-docs/semantic-colors-automatic-css.md)
 
 ## Contributing
 
@@ -90,4 +90,4 @@ This documentation repository follows the licensing terms of Automatic CSS. For 
 
 - [Automatic CSS Official Website](https://automaticcss.com)
 - [ACSS Community](https://automaticcss.com/community)
-- [Support](./acss-docs/contact-the-acss-team-automatic-css.md)
+- [Support](./docs/acss-docs/contact-the-acss-team-automatic-css.md)
